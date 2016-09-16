@@ -1,0 +1,5 @@
+<launch>
+	<include file="$(find px4)/launch/mavros_posix_sitl.launch">
+	</include>
+ 	<node name="hallway_navigator" pkg="hallway_navigator" type="hallway_navigator" />
+</launch>
