@@ -1,11 +1,12 @@
 <launch>
 	<include file="$(find px4)/launch/mavros_posix_sitl.launch">
-	<arg name="world" value="iris_hallway"/>
+	<arg name="vehicle" value="iris_hallway"/>
+	<arg name="world" value="$(find mavlink_sitl_gazebo)/worlds/iris_hallway.world"/>
 	</include>
+
  	<node name="hallway_navigator" pkg="hallway_navigator" type="offb_node" />
-<!--
-	<node name="laser_scan_matcher" pkg="laser_scan_matcher" type="laser_scan_matcher_node" />
-	<remap from="scan" to="/teraranger_lidar/laser/scan"/>
-	<remap from="imu/data" to="/mavros/imu/data"/>
-	-->
+
+	<node name="teraranger_relay" pkg="topic_tools" type="transform"
+	args="/teraranger /terarangerone sensor_msgs/Range 'm.header, 1, 5, m.range_min, m.range_max, m.ranges[0]' " />
+
 </launch>
