@@ -41,7 +41,7 @@ int main(int argc, char **argv)
     geometry_msgs::PoseStamped pose;
     pose.pose.position.x = 0;
     pose.pose.position.y = 0;
-    pose.pose.position.z = 2;
+    pose.pose.position.z = 1.5;
 
     //send a few setpoints before starting
     for(int i = 100; ros::ok() && i > 0; --i){
@@ -57,6 +57,7 @@ int main(int argc, char **argv)
     arm_cmd.request.value = true;
 
     ros::Time last_request = ros::Time::now();
+    ros::Time started = ros::Time::now();
 
     while(ros::ok()){
         if( current_state.mode != "OFFBOARD" &&
@@ -66,6 +67,7 @@ int main(int argc, char **argv)
                 ROS_INFO("Offboard enabled");
             }
             last_request = ros::Time::now();
+            started = ros::Time::now();
         } else {
             if( !current_state.armed &&
                 (ros::Time::now() - last_request > ros::Duration(5.0))){
@@ -74,8 +76,36 @@ int main(int argc, char **argv)
                     ROS_INFO("Vehicle armed");
                 }
                 last_request = ros::Time::now();
+                started = ros::Time::now();
             }
         }
+
+        if (ros::Time::now() - started > ros::Duration(10)) {
+            pose.pose.position.x = 5;
+            pose.pose.position.y = 0;
+            pose.pose.position.z = 1.5;            
+        }
+        if (ros::Time::now() - started > ros::Duration(15)) {
+            pose.pose.position.x = 5;
+            pose.pose.position.y = 4;
+            pose.pose.position.z = 1.5;            
+        }
+        if (ros::Time::now() - started > ros::Duration(20)) {
+            pose.pose.position.x = 5;
+            pose.pose.position.y = 4;
+            pose.pose.position.z = 0;          
+        }
+        if (current_state.armed && 
+            ros::Time::now() - started > ros::Duration(25) && 
+            ros::Time::now() - last_request > ros::Duration(5)) {
+            arm_cmd.request.value = false;
+            if( arming_client.call(arm_cmd) &&
+                arm_cmd.response.success){
+                    ROS_INFO("Vehicle disarmed");
+            }  
+            last_request = ros::Time::now();
+        }
+
 
         local_pos_pub.publish(pose);
 

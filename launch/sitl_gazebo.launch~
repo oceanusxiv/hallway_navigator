@@ -3,8 +3,9 @@
 	<arg name="world" value="iris_hallway"/>
 	</include>
  	<node name="hallway_navigator" pkg="hallway_navigator" type="offb_node" />
+<!--
 	<node name="laser_scan_matcher" pkg="laser_scan_matcher" type="laser_scan_matcher_node" />
 	<remap from="scan" to="/teraranger_lidar/laser/scan"/>
 	<remap from="imu/data" to="/mavros/imu/data"/>
-	
+	-->
 </launch>
