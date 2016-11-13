@@ -28,7 +28,7 @@ void tera_cb(const sensor_msgs::Range::ConstPtr& msg) {
     double dt = ros::Time::now().toSec() - last_time;
     thrust.data = (1 * (1 - range.range) + steady_thrust) + 
                   (-1 * (range.range - last_range.range) / dt);
-    thrust.data = std::max(0, std::min(thrust.data, 1));
+    thrust.data = std::max(0.0, std::min(thrust.data, 1.0));
     last_range = range;
     last_time = ros::Time::now().toSec();
 }
