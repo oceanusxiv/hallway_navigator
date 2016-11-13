@@ -28,6 +28,7 @@ void tera_cb(const sensor_msgs::Range::ConstPtr& msg) {
     double dt = ros::Time::now().toSec() - last_time;
     thrust.data = (1 * (1 - range.range) + steady_thrust) + 
                   (-1 * (range.range - last_range.range) / dt);
+    thrust.data = std::max(0, std::min(thrust.data, 1));
     last_range = range;
     last_time = ros::Time::now().toSec();
 }
@@ -40,11 +41,11 @@ int main(int argc, char **argv)
     ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>
             ("mavros/state", 10, state_cb);
     ros::Subscriber tera_sub = nh.subscribe<sensor_msgs::Range>
-            ("terarangerone_corrected", 10, tera_cb);
+            ("/terarangerone_corrected", 10, tera_cb);
     ros::Publisher local_pos_pub = nh.advertise<geometry_msgs::PoseStamped>
             ("mavros/setpoint_position/local", 10);
     ros::Publisher thrust_pub = nh.advertise<std_msgs::Float64>
-            ("setpoint_attitude/att_throttle", 10);
+            ("mavros/setpoint_attitude/att_throttle", 10);
     ros::ServiceClient arming_client = nh.serviceClient<mavros_msgs::CommandBool>
             ("mavros/cmd/arming");
     ros::ServiceClient set_mode_client = nh.serviceClient<mavros_msgs::SetMode>
