@@ -1,0 +1,11 @@
+<launch>
+	<include file="$(find px4)/launch/mavros_posix_sitl.launch">
+	<arg name="vehicle" value="iris_hallway"/>
+	<arg name="world" value="$(find mavlink_sitl_gazebo)/worlds/empty.world"/>
+	</include>
+
+ 	<node name="altitude_control" pkg="hallway_navigator" type="altitude_control" />
+
+ 	<node name="lidar_correction" pkg="hallway_navigator" type="lidar_correction" />
+
+</launch>
