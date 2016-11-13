@@ -12,7 +12,7 @@
 #include <mavros_msgs/SetMode.h>
 #include <mavros_msgs/State.h>
 
-float curr_dist;               // current distance
+float curr_dist;                // current distance
 float prev_dist = 0;
 float delta_dist;
 float error;                    // our error that we use for thrust
@@ -20,8 +20,8 @@ double curr_time;
 double prev_time = 0;
 double delta_time;
 float k_p = 0.3;                // our constant for error
-float k_d = -0.3;                // the derivative constant
-float thrust_const = 0.5;       // the constant of thrust
+float k_d = -0.005;             // the derivative constant
+float thrust_const = 0.606;     // the constant of thrust
 std_msgs::Float64 thrust_pwr;   // the published value. This is an object,
                                 // not a c type, and should be treated as such
 
