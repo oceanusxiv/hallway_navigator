@@ -28,6 +28,8 @@ int main(int argc, char **argv)
             ("mavros/cmd/arming");
     ros::ServiceClient set_mode_client = nh.serviceClient<mavros_msgs::SetMode>
             ("mavros/set_mode");
+    ros::Subscriber position_sub = nh.subscribe<sensor_msgs::Range>
+            ("mavros/terarangerone_corrected", 10);
 
     //the setpoint publishing rate MUST be faster than 2Hz
     ros::Rate rate(20.0);
@@ -59,6 +61,20 @@ int main(int argc, char **argv)
     ros::Time last_request = ros::Time::now();
     ros::Time started = ros::Time::now();
 
+    ros::Publisher thrust_publisher = nh.advertise<std_msgs::Float64>
+            ("mavros/setpoint_attitude/att_throttle", 10);
+    Float64 thrust;
+    float thrustAdjustment = .1;
+    float desiredPosition = 2;
+    float z = position_sub.range;
+    float offsetThrust = thrustAdjustment*(desiredPosition - z);
+    float acceptableError = .2;
+    float steadyThrust = .606;
+    double lastTime = ros::Time:now().toSec();
+    double deltaTime = 1;
+    float lastZ = position_sub.range;
+    float velocityAdjustment = -.003;
+    double deltaPosVsTime;
     while(ros::ok()){
         if( current_state.mode != "OFFBOARD" &&
             (ros::Time::now() - last_request > ros::Duration(5.0))){
@@ -79,22 +95,24 @@ int main(int argc, char **argv)
                 started = ros::Time::now();
             }
         }
+	// change the thrust until the error is nothing
+	deltaTime = ros::Time::now().toSec() - lastTime;
+	lastTime = ros::Time::now();
+        deltaPosVsTime = (z-lastZ)/(deltaTime)*velocityAdjustment;
+        lastZ = z;
+        z = position_sub.range;
+        OffsetThrust = thrustAdjustment*(desiredPosition - z);
+	if((desiredPosition - z)>acceptableError)
+	{
+	    thrust = offsetThrust + steadyThrust + deltaPosVsTime;
+	}
+	else
+	{
+	    thrust = steadyThrust;
+	}
+        thrust_publisher.publish(thrust)
+        
 
-        if (ros::Time::now() - started > ros::Duration(10)) {
-            pose.pose.position.x = 5;
-            pose.pose.position.y = 0;
-            pose.pose.position.z = 1.5;            
-        }
-        if (ros::Time::now() - started > ros::Duration(15)) {
-            pose.pose.position.x = 5;
-            pose.pose.position.y = 4;
-            pose.pose.position.z = 1.5;            
-        }
-        if (ros::Time::now() - started > ros::Duration(20)) {
-            pose.pose.position.x = 5;
-            pose.pose.position.y = 4;
-            pose.pose.position.z = 0;          
-        }
         if (current_state.armed && 
             ros::Time::now() - started > ros::Duration(25) && 
             ros::Time::now() - last_request > ros::Duration(5)) {
@@ -105,9 +123,6 @@ int main(int argc, char **argv)
             }  
             last_request = ros::Time::now();
         }
-
-
-        local_pos_pub.publish(pose);
 
         ros::spinOnce();
         rate.sleep();
