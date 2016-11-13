@@ -5,5 +5,5 @@
 	</include>
 
  	<node name="hallway_navigator" pkg="hallway_navigator" type="offb_node" />
-
+        <node name="lidar_correction" pkg="hallway_navigator" type="lidar_correction" />
 </launch>

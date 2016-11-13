@@ -6,13 +6,30 @@
 
 #include <ros/ros.h>
 #include <geometry_msgs/PoseStamped.h>
+#include <std_msgs/Float64.h>
+#include <sensor_msgs/Range.h>
 #include <mavros_msgs/CommandBool.h>
 #include <mavros_msgs/SetMode.h>
 #include <mavros_msgs/State.h>
 
+std_msgs::Float64 thrust;
+sensor_msgs::Range range;
+sensor_msgs::Range last_range;
+double last_time = 0;
+
 mavros_msgs::State current_state;
 void state_cb(const mavros_msgs::State::ConstPtr& msg){
     current_state = *msg;
+}
+
+void tera_cb(const sensor_msgs::Range::ConstPtr& msg) {
+    double steady_thrust = 0.606;
+    range = *msg;
+    double dt = ros::Time::now().toSec() - last_time;
+    thrust.data = (1 * (1 - range.range) + steady_thrust) + 
+                  (-1 * (range.range - last_range.range) / dt);
+    last_range = range;
+    last_time = ros::Time::now().toSec();
 }
 
 int main(int argc, char **argv)
@@ -22,8 +39,12 @@ int main(int argc, char **argv)
 
     ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>
             ("mavros/state", 10, state_cb);
+    ros::Subscriber tera_sub = nh.subscribe<sensor_msgs::Range>
+            ("lidar_correction", 10, tera_cb);
     ros::Publisher local_pos_pub = nh.advertise<geometry_msgs::PoseStamped>
             ("mavros/setpoint_position/local", 10);
+    ros::Publisher thrust_pub = nh.advertise<std_msgs::Float64>
+            ("setpoint_attitude/att_throttle", 10);
     ros::ServiceClient arming_client = nh.serviceClient<mavros_msgs::CommandBool>
             ("mavros/cmd/arming");
     ros::ServiceClient set_mode_client = nh.serviceClient<mavros_msgs::SetMode>
@@ -80,34 +101,8 @@ int main(int argc, char **argv)
             }
         }
 
-        if (ros::Time::now() - started > ros::Duration(10)) {
-            pose.pose.position.x = 5;
-            pose.pose.position.y = 0;
-            pose.pose.position.z = 1.5;            
-        }
-        if (ros::Time::now() - started > ros::Duration(15)) {
-            pose.pose.position.x = 5;
-            pose.pose.position.y = 4;
-            pose.pose.position.z = 1.5;            
-        }
-        if (ros::Time::now() - started > ros::Duration(20)) {
-            pose.pose.position.x = 5;
-            pose.pose.position.y = 4;
-            pose.pose.position.z = 0;          
-        }
-        if (current_state.armed && 
-            ros::Time::now() - started > ros::Duration(25) && 
-            ros::Time::now() - last_request > ros::Duration(5)) {
-            arm_cmd.request.value = false;
-            if( arming_client.call(arm_cmd) &&
-                arm_cmd.response.success){
-                    ROS_INFO("Vehicle disarmed");
-            }  
-            last_request = ros::Time::now();
-        }
-
-
-        local_pos_pub.publish(pose);
+        //local_pos_pub.publish(pose);
+        thrust_pub.publish(thrust);
 
         ros::spinOnce();
         rate.sleep();

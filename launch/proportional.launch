@@ -1,0 +1,7 @@
+<launch>
+        <node name="hallway_navigator" pkg="hallway_navigator" type="offb_node" />
+        <node name="terarangerone-ros" pkg="terarangerone-ros" type="terarangerone" />
+        <node name="mavros" pkg="mavros" type="px4.launch">
+</launch>
+
+
