@@ -1,0 +1,6 @@
+<launch>
+	<include file="$/sandbox/hallway_navigate/src/hallway_navigator/launch/sitl_gazebo.launch">
+        </include>
+
+        <node name="lidar_correction"  pkg="hallway_navigator" type="lidar_correction" />
+</launch>
