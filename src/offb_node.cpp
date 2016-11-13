@@ -40,7 +40,7 @@ int main(int argc, char **argv)
     ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>
             ("mavros/state", 10, state_cb);
     ros::Subscriber tera_sub = nh.subscribe<sensor_msgs::Range>
-            ("lidar_correction", 10, tera_cb);
+            ("terarangerone_corrected", 10, tera_cb);
     ros::Publisher local_pos_pub = nh.advertise<geometry_msgs::PoseStamped>
             ("mavros/setpoint_position/local", 10);
     ros::Publisher thrust_pub = nh.advertise<std_msgs::Float64>
