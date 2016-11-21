@@ -17,8 +17,6 @@ class GazeboCorrections(object):
         rospy.Subscriber("/rplidar/scan", LaserScan, self.callback_scan)
         rospy.Subscriber("/teraranger", LaserScan, self.callback_teraranger)
         rospy.Subscriber("/mavros/imu/data", Imu, self.callback_imu)
-        rospy.Subscriber("/diagnostics", DiagnosticArray, self.callback_time)
-        self.time_offset = rospy.Duration.from_sec(0)
         rospy.spin()
 
     def callback_scan(self, data):
@@ -50,9 +48,6 @@ class GazeboCorrections(object):
         msg.max_range = data.range_max
         msg.range = data.ranges[0]
         self.pub_teraranger.publish(msg)
-
-    def callback_time(self, data):
-        self.time_offset = rospy.Duration.from_sec(float(data.status[5].values[5].value))
 
     def callback_imu(self, data):
         msg = data
