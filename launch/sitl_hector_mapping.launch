@@ -11,7 +11,7 @@
  		<param name="base_stabilized_frame" value="base_stabilized"/>
  	</node>
 
- 	<node name="base_to_laser" pkg="tf" type="static_transform_publisher" args="0 0 0.08 0 0 0 /base_link /rplidar::base 100" />
+ 	<node name="base_to_laser" pkg="tf" type="static_transform_publisher" args="0 0 0.08 0 0 0 /base_link /laser_link 100" />
 
 
 </launch>
