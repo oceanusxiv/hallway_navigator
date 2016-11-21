@@ -7,11 +7,16 @@
  	<node name="hallway_navigator" pkg="hallway_navigator" type="offb_node" />
 
  	<node name="imu_to_tf" pkg="hector_imu_attitude_to_tf" type="imu_attitude_to_tf_node">
- 		<remap from="/imu_topic" to="/mavros/imu/data"/>
+ 		<remap from="/imu_topic" to="/mavros/imu/data_synced"/>
  		<param name="base_stabilized_frame" value="base_stabilized"/>
  	</node>
 
  	<node name="base_to_laser" pkg="tf" type="static_transform_publisher" args="0 0 0.08 0 0 0 /base_link /laser_link 100" />
 
+ 	<node name="rplidar_slam" pkg="hector_mapping" type="hector_mapping">
+ 		<param name="map_frame" value="map" />
+ 		<param name="odom_frame" value="base_link" />
+ 		<remap from="/scan" to="/rplidar_synced/scan" />
+ 	</node>
 
 </launch>
