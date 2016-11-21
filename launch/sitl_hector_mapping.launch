@@ -1,0 +1,17 @@
+<launch>
+	<include file="$(find px4)/launch/mavros_posix_sitl.launch">
+	<arg name="vehicle" value="iris_hallway"/>
+	<arg name="world" value="$(find mavlink_sitl_gazebo)/worlds/iris_hallway.world"/>
+	</include>
+
+ 	<node name="hallway_navigator" pkg="hallway_navigator" type="offb_node" />
+
+ 	<node name="imu_to_tf" pkg="hector_imu_attitude_to_tf" type="imu_attitude_to_tf_node">
+ 		<remap from="/imu_topic" to="/mavros/imu/data"/>
+ 		<param name="base_stabilized_frame" value="base_stabilized"/>
+ 	</node>
+
+ 	<node name="base_to_laser" pkg="tf" type="static_transform_publisher" args="0 0 0.08 0 0 0 /base_link /rplidar::base 100" />
+
+
+</launch>
