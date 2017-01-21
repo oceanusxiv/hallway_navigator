@@ -4,6 +4,11 @@
 	<arg name="world" value="$(find mavlink_sitl_gazebo)/worlds/iris_hallway.world"/>
 	</include>
 
+	<node name="visualization" pkg="mavros_extras" type="copter_visualization" output="screen">
+		<remap from="local_position" to="/mavros/local_position/pose"/>
+		<remap from="local_setpoint" to="/mavros/setpoint_position/local"/>
+	</node>
+
  	<node name="hallway_navigator" pkg="hallway_navigator" type="offb_node" />
 
 </launch>

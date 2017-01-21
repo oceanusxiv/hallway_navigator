@@ -4,7 +4,7 @@
 	<arg name="world" value="$(find mavlink_sitl_gazebo)/worlds/iris_hallway.world"/>
 	</include>
 
- 	<node name="hallway_navigator" pkg="hallway_navigator" type="offb_node" />
+<!--  	<node name="hallway_navigator" pkg="hallway_navigator" type="offb_node" /> -->
 
  	<node name="gazebo_corrections" pkg="hallway_navigator" type="gazebo_corrections.py" />
 
@@ -18,15 +18,15 @@
 
  	<node name="base_to_laser" pkg="tf" type="static_transform_publisher" args="0 0 0.08 0 0 0 /base_link /laser_link 100" />
 
- 	<node name="rplidar_slam" pkg="hector_mapping" type="hector_mapping">
+ 	<node name="rplidar_slam" pkg="hector_mapping" type="hector_mapping" output="screen">
  		<param name="map_frame" value="map" />
- 		<param name="base_frame" value="base_footprint" />
- 		<param name="odom_frame" value="base_footprint" />
+ 		<param name="base_frame" value="base_stabilized" />
+ 		<param name="odom_frame" value="base_stabilized" />
  		<param name="use_tf_scan_transformation" value="true"/>
 		<param name="use_tf_pose_start_estimate" value="false"/>
- 		<remap from="/scan" to="/rplidar_synced/scan" />
+		<param name="scan_topic" value="/rplidar_synced/scan"/>
  	</node>
 
- 	<node name="feedback_to_fcu" pkg="topic_tools" type="relay" args="/slam_out_pose /mavros/vision_pose/pose" />
+<!--  	<node name="feedback_to_fcu" pkg="topic_tools" type="relay" args="/slam_out_pose /mavros/vision_pose/pose" /> -->
 
 </launch>
