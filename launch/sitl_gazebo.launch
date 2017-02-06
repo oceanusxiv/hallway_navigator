@@ -1,7 +1,7 @@
 <launch>
-	<include file="$(find px4)/launch/mavros_posix_sitl.launch">
-	<arg name="vehicle" value="iris_hallway"/>
-	<arg name="world" value="$(find mavlink_sitl_gazebo)/worlds/iris_hallway.world"/>
+	<include file="$(find hallway_navigator)/launch/mavros_posix_sitl.launch">
+	<arg name="vehicle" value="iris"/>
+	<arg name="world" value="$(find mavlink_sitl_gazebo)/worlds/empty.world"/>
 	</include>
 
 	<node name="visualization" pkg="mavros_extras" type="copter_visualization" output="screen">
