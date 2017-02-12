@@ -1,7 +1,7 @@
 <launch>
 	<include file="$(find px4)/launch/mavros_posix_sitl.launch">
-	<arg name="vehicle" value="iris"/>
-	<arg name="world" value="$(find mavlink_sitl_gazebo)/worlds/empty.world"/>
+	<arg name="vehicle" value="iris_hallway"/>
+	<arg name="world" value="$(find mavlink_sitl_gazebo)/worlds/wood_grid.world"/>
 	</include>
 
 	<node name="visualization" pkg="mavros_extras" type="copter_visualization" output="screen">
@@ -12,4 +12,22 @@
 
  	<node name="hallway_navigator" pkg="hallway_navigator" type="offb_node" />
 
+	<arg name="irobot" default="$(find mavlink_sitl_gazebo)/models/create/model.sdf"/>
+
+        <group ns="Robot1">
+           <node name="irobot1" output="screen" pkg="gazebo_ros" type="spawn_model"
+            args="-sdf -file $(arg irobot) -model irobot1 -x 5 -y 0 -z 0 -R 0 -P 0 -Y 0"/>
+        </group>
+        <group ns="Robot2">
+           <node name="irobot2" output="screen" pkg="gazebo_ros" type="spawn_model"
+            args="-sdf -file $(arg irobot) -model irobot2 -x 0 -y 5 -z 0 -R 0 -P 0 -Y 0"/>
+        </group>
+        <group ns="Robot3">
+           <node name="irobot3" output="screen" pkg="gazebo_ros" type="spawn_model"
+            args="-sdf -file $(arg irobot) -model irobot3 -x -5 -y 0 -z 0 -R 0 -P 0 -Y 0"/>
+        </group>
+        <group ns="Robot4">
+           <node name="irobot4" output="screen" pkg="gazebo_ros" type="spawn_model"
+            args="-sdf -file $(arg irobot) -model irobot4 -x 0 -y -5 -z 0 -R 0 -P 0 -Y 0"/>
+        </group>
 </launch>
