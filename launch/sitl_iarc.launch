@@ -1,5 +1,5 @@
 <launch>
-	<include file="$(find px4)/launch/mavros_posix_sitl.launch">
+	<include file="$(find hallway_navigator)/launch/mavros_posix_sitl.launch">
 	<arg name="vehicle" value="iris_hallway"/>
 	<arg name="world" value="$(find mavlink_sitl_gazebo)/worlds/wood_grid.world"/>
 	</include>
