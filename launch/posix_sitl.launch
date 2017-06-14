@@ -37,10 +37,6 @@
 
     <node name="$(anon vehicle_spawn)" output="screen" pkg="gazebo_ros" type="spawn_model"
         args="-sdf -file $(arg sdf) -model $(arg vehicle) -x $(arg x) -y $(arg y) -z $(arg z) -R $(arg R) -P $(arg P) -Y $(arg Y)"/>
-
-    <node name="irobot_spawn" output="screen" pkg="gazebo_ros" type="spawn_model"
-        args="-sdf -file $(arg irobot) -model irobot -x 0 -y 1 -z 0 -R 0 -P 0 -Y 0"/>
-
 </launch>
 
 <!-- vim: set et ft=xml fenc=utf-8 ff=unix sts=0 sw=4 ts=4 : -->
