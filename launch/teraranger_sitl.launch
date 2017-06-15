@@ -1,7 +1,5 @@
 <launch>
 
- 	<node name="teraranger_transform" pkg="topic_tools" type="transform" args="/teraranger /terarangerone sensor_msgs/Range 'm.header, 1, m.angle_max-m.angle_min, m.range_min, m.range_max, m.ranges[0]'" />
-
- 	<node name="rplidar_transform" pkg="topic_tools" type="transform" args="/rplidar/scan /rplidar_synced/scan sensor_msgs/LaserScan 'm.header.seq, rospy.get_rostime(), m.header.frame_id, m.angle_min, m.angle_max, m.angle_increment, m.angle_increment, m.scan_time, m.range_min, m.range_max, m.ranges, m.intensities' --import rospy" />
+ 	<node name="teraranger_transform" pkg="topic_tools" type="transform" args="/terarangerone_sim /terarangerone sensor_msgs/Range 'm.header, 1, m.angle_max-m.angle_min, m.range_min, m.range_max, m.ranges[0]'" />
 
 </launch>
