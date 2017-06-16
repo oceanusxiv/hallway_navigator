@@ -21,8 +21,8 @@ void sensor_callback(const sensor_msgs::RangeConstPtr& range, const sensor_msgs:
 
     geometry_msgs::TransformStamped footprintTransform;
     footprintTransform.header.stamp = ros::Time::now();
-    footprintTransform.header.frame_id = "map_2d";
-    footprintTransform.child_frame_id = "map";
+    footprintTransform.header.frame_id = "map";
+    footprintTransform.child_frame_id = "map_3d";
     footprintTransform.transform.translation.x = 0;
     footprintTransform.transform.translation.y = 0;
     footprintTransform.transform.translation.z = range->range * cos(roll) * cos(pitch);
@@ -34,6 +34,7 @@ void sensor_callback(const sensor_msgs::RangeConstPtr& range, const sensor_msgs:
 void static_callback(const tf2_msgs::TFMessageConstPtr& transform_msg) {
     for (auto& transform : transform_msg->transforms) {
         if (!transform.header.frame_id.compare("base_link") && !transform.child_frame_id.compare("base_range")) {
+            ROS_INFO("Found static TF!");
             range_transform = transform;
         }
     }
