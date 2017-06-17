@@ -1,0 +1,33 @@
+<launch>
+    <node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">
+    	<param name="serial_port"         type="string" value="/dev/rplidar"/>  
+    	<param name="serial_baudrate"     type="int"    value="115200"/>
+    	<param name="frame_id"            type="string" value="laser"/>
+    	<param name="inverted"            type="bool"   value="false"/>
+    	<param name="angle_compensate"    type="bool"   value="true"/>
+    </node>
+
+	<node name="terarangerone_node" pkg="terarangerone" type="terarangerone_node">
+		<param name="portname" value="/dev/terarangerone" />
+	</node>
+
+ <!-- 	<node name="base_to_laser" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0.1 0 0 0 /base_link /laser" />
+
+  <node name="base_to_fcu" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 /base_link /fcu" />
+
+ 	<node name="base_to_teraranger" pkg="tf2_ros" type="static_transform_publisher" args="0 0 -0.1 0 0 0 /base_link /base_range" /> -->
+
+  	<arg name="configuration_basename" value="quadcopter_rplidar_3d.lua" />
+
+  	<node name="cartographer_node" pkg="cartographer_ros"
+      	type="cartographer_node" args="
+          	-configuration_directory
+              	$(find hallway_navigator)/configuration_files
+          	-configuration_basename $(arg configuration_basename)"
+      	output="screen">
+    	<remap from="imu" to="/mavros/imu/data" />
+  	</node>
+
+  <node name="teraranger_altitude_broadcast" pkg="hallway_navigator" type="range_to_altitude_broadcaster" output="screen" />
+
+</launch>

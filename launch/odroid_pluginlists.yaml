@@ -1,0 +1,25 @@
+plugin_blacklist:
+# common
+- safety_area
+# extras
+- image_pub
+- vibration
+- distance_sensor
+- 3dr_radio
+- actuator_control
+- hil_controls
+- ftp
+- vfr_hud
+- cam_imu_sync
+- mocap_pose_estimate
+- px4flow
+- vibration
+- hil_actuator_controls
+- manual_controls
+- mocap_fake_gps
+- home_position
+- rc_io
+
+
+plugin_whitelist: []
+#- 'sys_*'
