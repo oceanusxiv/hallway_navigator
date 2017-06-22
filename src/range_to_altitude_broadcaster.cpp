@@ -62,14 +62,15 @@ int main(int argc, char** argv) {
     ros::init(argc, argv, "base_footprint_broadcaster");
 
     ros::NodeHandle nh;
+    ros::NodeHandle nh_private("~");
 
     std::string range_topic, imu_topic;
-    nh.param<std::string>("range_topic",range_topic, "terarangerone");
-    nh.param<std::string>("imu_topic", imu_topic, "/mavros/imu/data");
-    nh.param<std::string>("base_link", base_link, "base_link");
-    nh.param<std::string>("base_range", base_range, "base_range");
-    nh.param<std::string>("frame", frame, "map");
-    nh.param<std::string>("child_frame", child_frame, "map_3d");
+    nh_private.param<std::string>("~range_topic",range_topic, "terarangerone");
+    nh_private.param<std::string>("~imu_topic", imu_topic, "/mavros/imu/data");
+    nh_private.param<std::string>("~base_link", base_link, "base_link");
+    nh_private.param<std::string>("~base_range", base_range, "base_range");
+    nh_private.param<std::string>("~frame", frame, "map");
+    nh_private.param<std::string>("~child_frame", child_frame, "map_3d");
 
     ros::Subscriber static_range_transform = nh.subscribe<tf2_msgs::TFMessage>("tf_static", 10, static_callback);
     ros::Subscriber teraranger_sub = nh.subscribe<sensor_msgs::Range>(range_topic, 10, range_callback);

@@ -15,6 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   message_filters
   tf2
+        rviz
 )
 
 ## System dependencies are found with CMake's conventions
