@@ -7,16 +7,21 @@
 		<arg name="rcS" value="$(find hallway_navigator)/launch/solo_cartographer"/>
 	</include>
 
-	<!--<node name="visualization" pkg="mavros_extras" type="copter_visualization" output="screen">
+	<node name="visualization" pkg="mavros_extras" type="copter_visualization" output="screen">
 		<remap from="local_position" to="/mavros/local_position/pose"/>
 		<remap from="local_setpoint" to="/mavros/setpoint_position/local"/>
-	</node>-->
+		<param name="num_rotors" type="int" value="4"/>
+		<param name="fixed_frame_id" type="string" value="map"/>
+		<param name="child_frame_id" type="string" value="base_link"/>
+	</node>
 
- 	<!--<node name="hallway_navigator" pkg="hallway_navigator" type="offb_node" />-->
+ 	<node name="hallway_navigator" pkg="hallway_navigator" type="offb_node" output="screen">
+ 	    <param name="fixed_frame" type="string" value="map"/>
+ 	</node>
 
 	<node name="teraranger_altitude_broadcast" pkg="hallway_navigator" type="range_to_altitude_broadcaster" output="screen" />
 
-	<node name="base_to_teraranger" pkg="tf2_ros" type="static_transform_publisher" args="0.13 0 -0.04 0 0 0 base_link base_range" />
+	<node name="base_to_teraranger" pkg="tf2_ros" type="static_transform_publisher" args="-0.18 0 -0.04 0 0 0 base_link base_range" />
 
 	<node name="base_to_laser" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0.05 0 0 0 base_link laser" />
 
@@ -30,6 +35,6 @@
               	$(find hallway_navigator)/configuration_files
           	-configuration_basename $(arg configuration_basename)"
       	output="screen">
-    	<remap from="imu" to="/mavros/imu/data" />
+    	<remap from="imu" to="/mavros/imu/data_raw" />
   	</node>
 </launch>

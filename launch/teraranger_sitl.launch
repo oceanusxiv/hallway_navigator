@@ -1,5 +1,0 @@
-<launch>
-
- 	<node name="teraranger_transform" pkg="topic_tools" type="transform" args="/terarangerone_sim /terarangerone sensor_msgs/Range 'm.header, 1, m.angle_max-m.angle_min, m.range_min, m.range_max, m.ranges[0]'" />
-
-</launch>
