@@ -19,7 +19,7 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
+find_package(Boost REQUIRED)
 find_package(Eigen3 REQUIRED)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -142,6 +142,7 @@ add_executable(lidar_correction src/lidar_correction.cpp)
 add_executable(altitude_control src/altitude_control.cpp)
 add_executable(range_to_altitude_broadcaster src/range_to_altitude_broadcaster.cpp)
 add_executable(quad_pose_broadcaster src/quad_pose_broadcaster.cpp)
+add_executable(waypoint_tracker src/waypoint_tracker.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -150,6 +151,7 @@ add_dependencies(lidar_correction ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_E
 add_dependencies(altitude_control ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(range_to_altitude_broadcaster ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(quad_pose_broadcaster ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(waypoint_tracker ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(offb_node ${catkin_LIBRARIES})
@@ -157,7 +159,7 @@ target_link_libraries(lidar_correction ${catkin_LIBRARIES})
 target_link_libraries(altitude_control ${catkin_LIBRARIES})
 target_link_libraries(range_to_altitude_broadcaster ${catkin_LIBRARIES})
 target_link_libraries(quad_pose_broadcaster ${catkin_LIBRARIES})
-
+target_link_libraries(waypoint_tracker ${catkin_LIBRARIES})
 
 #############
 ## Install ##

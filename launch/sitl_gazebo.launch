@@ -1,9 +1,9 @@
 <launch>
 	<include file="$(find px4)/launch/mavros_posix_sitl.launch">
-		<arg name="vehicle" value="solo_hallway"/>
+		<arg name="vehicle" value="solo"/>
 		<arg name="world" value="$(find mavlink_sitl_gazebo)/worlds/empty.world"/>
 		<arg name="est" value="ekf2"/>
-		<arg name="rcS" value="$(find hallway_navigator)/launch/solo_cartographer"/>
+		<!-- <arg name="rcS" value="$(find hallway_navigator)/launch/solo_cartographer"/> -->
 	</include>
 
 	<node name="visualization" pkg="mavros_extras" type="copter_visualization" output="screen">
@@ -13,8 +13,13 @@
 		<param name="fixed_frame_id" type="string" value="map"/>
 	</node>
 
- 	<node name="hallway_navigator" pkg="hallway_navigator" type="offb_node" output="screen">
- 	    <param name="fixed_frame" type="string" value="map"/>
+ 	<!--<node name="hallway_navigator" pkg="hallway_navigator" type="offb_node" output="screen">
+ 	    <param name="fixed_frame" type="string" value="local_origin"/>
+ 	</node>-->
+
+ 	<node name="hallway_navigator" pkg="hallway_navigator" type="waypoint_tracker" output="screen">
+ 	    <param name="waypoints_file" type="string" value="$(find hallway_navigator)/configuration_files/simple.txt"/>
+		<param name="margin" type="double" value="0.15"/>
  	</node>
 
 	<!--<node name="teraranger_altitude_broadcast" pkg="hallway_navigator" type="range_to_altitude_broadcaster" output="screen" />-->
