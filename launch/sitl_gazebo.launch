@@ -18,7 +18,7 @@
  	</node>-->
 
  	<node name="hallway_navigator" pkg="hallway_navigator" type="waypoint_tracker" output="screen">
- 	    <param name="waypoints_file" type="string" value="$(find hallway_navigator)/configuration_files/simple.txt"/>
+ 	    <param name="waypoints_file" type="string" value="$(find hallway_navigator)/configuration_files/8.txt"/>
 		<param name="margin" type="double" value="0.15"/>
  	</node>
 
