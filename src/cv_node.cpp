@@ -1,3 +1,5 @@
+//TODO: CHANGE THIS FORMAT INTO A CLASS SO THAT IT IS MORE MODULAR
+
 #include <iostream>
 #include <fstream>
 
