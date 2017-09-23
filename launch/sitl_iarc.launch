@@ -1,6 +1,7 @@
 <launch>
 	<include file="$(find hallway_navigator)/launch/mavros_posix_sitl.launch">
-	<arg name="world" value="$(find mavlink_sitl_gazebo)/worlds/wood_grid.world"/>
+        <arg name="vehicle" value="iris_hallway"/>
+        <!--	<arg name="world" value="$(find mavlink_sitl_gazebo)/worlds/wood_grid.world"/> -->
 	</include>
 
 	<node name="visualization" pkg="mavros_extras" type="copter_visualization" output="screen">
@@ -10,8 +11,19 @@
 	</node>
 
  	<node name="hallway_navigator" pkg="hallway_navigator" type="offb_node" />
+ 	<node name="hallway_navigator_cv" pkg="hallway_navigator" type="cv_node" />
 
         <arg name="irobot" default="$(find mavlink_sitl_gazebo)/models/create/model.sdf"/>
+
+        <group ns="Robot1">
+           <node name="robot1" output="screen" pkg="gazebo_ros" type="spawn_model"
+            args="-sdf -file $(arg irobot) -model robot1 -x 5 -y 0 -z 0 -R 0 -P 0 -Y 0"/>
+</group>
+
+<group ns="Robot2">
+           <node name="robot2" output="screen" pkg="gazebo_ros" type="spawn_model"
+            args="-sdf -file $(arg irobot) -model robot2 -x 0 -y 5 -z 0 -R 0 -P 0 -Y 0"/>
+</group>
 
 	<arg name="irobotobstacle" default="$(find mavlink_sitl_gazebo)/models/obstacle_robot/obstacle_robot.sdf"/>
 
@@ -19,4 +31,5 @@
            <node name="obstacle1" output="screen" pkg="gazebo_ros" type="spawn_model"
             args="-sdf -file $(arg irobotobstacle) -model obstacle1 -x 3 -y 0 -z 0 -R 0 -P 0 -Y 0"/>
         </group>
+
 </launch>

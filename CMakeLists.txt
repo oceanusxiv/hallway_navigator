@@ -13,11 +13,14 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   tf
   tf2
+  image_transport
+  cv_bridge
 )
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
-
+find_package(Boost REQUIRED)
+find_package(OpenCV REQUIRED)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -133,6 +136,7 @@ include_directories(
 # add_dependencies(hallway_navigator ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
+add_executable(cv_node src/cv_node.cpp)
 add_executable(offb_node src/offb_node.cpp)
 add_executable(lidar_correction src/lidar_correction.cpp)
 add_executable(altitude_control src/altitude_control.cpp)
@@ -141,6 +145,7 @@ add_executable(quad_pose_broadcaster src/quad_pose_broadcaster.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
+add_dependencies(cv_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(offb_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(lidar_correction ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(altitude_control ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
@@ -148,6 +153,7 @@ add_dependencies(base_footprint_broadcaster ${${PROJECT_NAME}_EXPORTED_TARGETS} 
 add_dependencies(quad_pose_broadcaster ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
+target_link_libraries(cv_node ${catkin_LIBRARIES})
 target_link_libraries(offb_node ${catkin_LIBRARIES})
 target_link_libraries(lidar_correction ${catkin_LIBRARIES})
 target_link_libraries(altitude_control ${catkin_LIBRARIES})
