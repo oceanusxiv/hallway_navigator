@@ -41,7 +41,7 @@ int main(int argc, char **argv)
     geometry_msgs::PoseStamped pose;
     pose.pose.position.x = 0;
     pose.pose.position.y = 0;
-    pose.pose.position.z = 1.5;
+    pose.pose.position.z = 3;
 
     //send a few setpoints before starting
     for(int i = 100; ros::ok() && i > 0; --i){
@@ -81,22 +81,22 @@ int main(int argc, char **argv)
         }
 
         if (ros::Time::now() - started > ros::Duration(10)) {
-            pose.pose.position.x = 5;
+            pose.pose.position.x = 0;
             pose.pose.position.y = 0;
-            pose.pose.position.z = 1.5;            
+            pose.pose.position.z = 3;            
         }
         if (ros::Time::now() - started > ros::Duration(15)) {
-            pose.pose.position.x = 5;
-            pose.pose.position.y = 4;
-            pose.pose.position.z = 1.5;            
+            pose.pose.position.x = 0;
+            pose.pose.position.y = 0;
+            pose.pose.position.z = 3;            
         }
         if (ros::Time::now() - started > ros::Duration(20)) {
-            pose.pose.position.x = 5;
-            pose.pose.position.y = 4;
-            pose.pose.position.z = 0;          
+            pose.pose.position.x = 0;
+            pose.pose.position.y = 0;
+            pose.pose.position.z = 3;          
         }
         if (current_state.armed && 
-            ros::Time::now() - started > ros::Duration(25) && 
+            ros::Time::now() - started > ros::Duration(55) && 
             ros::Time::now() - last_request > ros::Duration(5)) {
             arm_cmd.request.value = false;
             if( arming_client.call(arm_cmd) &&
