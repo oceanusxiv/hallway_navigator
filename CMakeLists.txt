@@ -136,6 +136,7 @@ include_directories(
 # add_dependencies(hallway_navigator ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
+add_executable(roomba_target_node src/roomba_target_node.cpp)
 add_executable(cv_node src/cv_node.cpp)
 add_executable(offb_node src/offb_node.cpp)
 add_executable(lidar_correction src/lidar_correction.cpp)
@@ -145,6 +146,7 @@ add_executable(quad_pose_broadcaster src/quad_pose_broadcaster.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
+add_dependencies(roomba_target_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(cv_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(offb_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(lidar_correction ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
@@ -153,6 +155,7 @@ add_dependencies(base_footprint_broadcaster ${${PROJECT_NAME}_EXPORTED_TARGETS} 
 add_dependencies(quad_pose_broadcaster ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
+target_link_libraries(roomba_target_node ${catkin_LIBRARIES})
 target_link_libraries(cv_node ${catkin_LIBRARIES})
 target_link_libraries(offb_node ${catkin_LIBRARIES})
 target_link_libraries(lidar_correction ${catkin_LIBRARIES})

@@ -1,4 +1,5 @@
 //TODO: CHANGE THIS FORMAT INTO A CLASS SO THAT IT IS MORE MODULAR
+// TODO: IDEAL HSV FOR RED TARGET IS 6, 97.7, and 69.0
 
 #include <iostream>
 #include <fstream>
