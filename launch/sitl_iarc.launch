@@ -12,14 +12,32 @@
 	</node>
 
  	<node name="hallway_navigator" pkg="hallway_navigator" type="offb_node" />
- 	<node name="hallway_navigator_cv" pkg="hallway_navigator" type="cv_node" />
+    <node name="hallway_navigator_cv" pkg="hallway_navigator" type="cv_node" />
+    <node name="hallway_navigator_roomba" pkg="hallway_navigator" type="roomba_target_node" />
 
-    <arg name="irobot" default="$(find mavlink_sitl_gazebo)/models/create/model.sdf"/>
+    <arg name="irobot" default="$(find mavlink_sitl_gazebo)/models/create_red/model.sdf"/>
 
     <group ns="Robot1">
         <node name="robot1" output="screen" pkg="gazebo_ros" type="spawn_model"
-        args="-sdf -file $(arg irobot) -model robot1 -x 5 -y 0 -z 0 -R 0 -P 0 -Y 0"/>
+        args="-sdf -file $(arg irobot) -model robot1 -x 1 -y 0 -z 0 -R 0 -P 0 -Y 0"/>
     </group>
+
+
+    <group ns="Robot3">
+        <node name="robot3" output="screen" pkg="gazebo_ros" type="spawn_model"
+        args="-sdf -file $(arg irobot) -model robot3 -x 0 -y 1 -z 0 -R 0 -P 0 -Y 0"/>
+    </group>
+
+    <group ns="Robot4">
+        <node name="robot4" output="screen" pkg="gazebo_ros" type="spawn_model"
+        args="-sdf -file $(arg irobot) -model robot4 -x 0 -y -1 -z 0 -R 0 -P 0 -Y 0"/>
+    </group>
+
+    <group ns="Robot5">
+        <node name="robot5" output="screen" pkg="gazebo_ros" type="spawn_model"
+        args="-sdf -file $(arg irobot) -model robot5 -x -1 -y 0 -z 0 -R 0 -P 0 -Y 0"/>
+    </group>
+
 
     <group ns="Robot2">
            <node name="robot2" output="screen" pkg="gazebo_ros" type="spawn_model"
